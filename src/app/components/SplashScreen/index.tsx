@@ -8,6 +8,6 @@ const SplashScreen: React.FC = () => {
       <p>Gerenciando seus gastos de combustível...</p>
     </div>
   );
-};
+};      
 
 export default SplashScreen;

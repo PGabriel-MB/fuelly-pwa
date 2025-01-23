@@ -25,7 +25,7 @@ export default function RootLayout({
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setShowSplash(true);
+      setShowSplash(false);
     }, 2000);
 
     return () => clearTimeout(timeout);

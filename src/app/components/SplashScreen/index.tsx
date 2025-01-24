@@ -1,4 +1,4 @@
-import React,  { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 const SplashScreen: React.FC = () => {
@@ -17,7 +17,7 @@ const SplashScreen: React.FC = () => {
     w-screen h-screen
     bg-primary text-white text-xl
     flex flex-col items-center justify-center z-50
-    transition-opacity duration-700 ${ fadeOut ? 'opacity-0 pointer-events-none' : 'opacity-100'}
+    transition-opacity duration-700 ${fadeOut ? 'opacity-0 pointer-events-none' : 'opacity-100'}
   `;
 
   return (
@@ -30,6 +30,6 @@ const SplashScreen: React.FC = () => {
       />
     </div>
   );
-};      
+};
 
 export default SplashScreen;

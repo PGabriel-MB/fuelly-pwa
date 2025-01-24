@@ -1,6 +1,10 @@
+"use client";
 import React, { useState } from "react";
 
+import LoginForm from './LoginForm'
+import SignUpForm from './SingUpForm'
 import { layoutStyle } from "./styles";
+import Image from "next/image";
 
 
 const AuthForm: React.FC = () => {
@@ -8,7 +12,13 @@ const AuthForm: React.FC = () => {
 
   return (
     <div className={layoutStyle}>
-      {}
+      <Image
+        src="/brand/fuelly-logo-home.svg"
+        alt="Logomarca da Fuelly"
+        width={120}
+        height={117}
+      />
+      {isLogin ? <LoginForm /> : <SignUpForm />}
     </div>
   )
 }

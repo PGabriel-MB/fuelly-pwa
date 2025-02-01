@@ -1,5 +1,5 @@
 import React, { InputHTMLAttributes } from "react";
-import { layoutStyle } from './styles';
+import { layoutStyle, inputStyle } from './styles';
 
 export type TextFieldProps = {
   label: string;
@@ -13,7 +13,7 @@ export const TextField: React.FC<TextFieldProps> = ({
   return (
     <div className={layoutStyle}>
       <label htmlFor={inputProps?.id}>{label}</label>
-      <input {...inputProps} />
+      <input {...inputProps} className={inputStyle} />
     </div>
   );
 }

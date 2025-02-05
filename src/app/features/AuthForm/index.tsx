@@ -8,7 +8,7 @@ import Image from "next/image";
 
 
 const AuthForm: React.FC = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
 
   return (
     <div className={layoutStyle}>

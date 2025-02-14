@@ -5,7 +5,7 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   styleType: 'primary' | 'secondary';
 }
 
-export const Button: React.FC<ButtonProps> = ({ children, styleType }) => {
+export const Button: React.FC<ButtonProps> = ({ children, styleType, ...props }) => {
   
   let buttonStyle = '';
 
@@ -13,6 +13,6 @@ export const Button: React.FC<ButtonProps> = ({ children, styleType }) => {
   if (styleType == "secondary") buttonStyle = generalButtonStyles + secondaryButtonStyle;
 
   return (
-    <button className={buttonStyle}>{children}</button>
+    <button className={buttonStyle} {...props}>{children}</button>
   )
 }

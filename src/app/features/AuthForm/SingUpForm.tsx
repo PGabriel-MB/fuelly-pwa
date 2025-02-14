@@ -3,14 +3,32 @@ import { formStyle } from "./styles"
 
 import { TextField } from "@/app/components/TextField"
 
-const SignUpForm: React.FC = () => {
+export interface SignUpFormProps {
+  name: string;
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+  phone: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const SignUpForm: React.FC<SignUpFormProps> = ({
+  name = '',
+  email = '',
+  password = '',
+  passwordConfirmation = '',
+  phone = '',
+  onChange
+}) => {
   return (
     <div className={formStyle}>
       <TextField
         label="Nome"
         inputProps={{
           placeholder: "Seu nome",
-          type: "text"
+          type: "text",
+          value: name,
+          onChange
         }}
       />
 
@@ -18,7 +36,9 @@ const SignUpForm: React.FC = () => {
         label="Email"
         inputProps={{
           placeholder: "someName@email.com",
-          type: "email"
+          type: "email",
+          value: email,
+          onChange
         }}
       />
 
@@ -26,7 +46,9 @@ const SignUpForm: React.FC = () => {
         label="Senha"
         inputProps={{
           placeholder: "******",
-          type: "password"
+          type: "password",
+          value: password,
+          onChange
         }}
       />
 
@@ -34,7 +56,9 @@ const SignUpForm: React.FC = () => {
         label="Confirme sua Senha"
         inputProps={{
           placeholder: "******",
-          type: "password"
+          type: "password",
+          value: passwordConfirmation,
+          onChange
         }}
       />
 
@@ -42,7 +66,9 @@ const SignUpForm: React.FC = () => {
         label="Telefone"
         inputProps={{
           placeholder: "(12) 99999-9999",
-          type: "number"
+          type: "number",
+          value: phone,
+          onChange
         }}
       />
     </div>

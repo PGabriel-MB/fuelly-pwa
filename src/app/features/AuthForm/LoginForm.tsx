@@ -2,14 +2,22 @@ import React, { } from "react"
 import { formStyle } from "./styles"
 import { TextField } from "@/app/components/TextField";
 
-const LoginForm: React.FC = () => {
+export interface LoginFormProps {
+  email: string;
+  password: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({ email = '', password = '', onChange }) => {
   return (
     <div className={formStyle}>
       <TextField
         label="Email"
         inputProps={{
           placeholder: "someName@email.com",
-          type: "email"
+          type: "email",
+          value: email,
+          onChange
         }}
       />
 
@@ -17,7 +25,9 @@ const LoginForm: React.FC = () => {
         label="Senha"
         inputProps={{
           placeholder: "******",
-          type: "password"
+          type: "password",
+          value: password,
+          onChange
         }}
       />
     </div>

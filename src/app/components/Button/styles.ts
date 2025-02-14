@@ -1,7 +1,7 @@
 export const generalButtonStyles = `
   w-full p-2
   rounded-lg
-  font-bold
+  font-bold transition delay-150 duartion-300 hover:bg-primary-foreground
 `;
 
 export const primaryButtonStyle = `

@@ -9,7 +9,11 @@ export interface SignUpFormProps {
   password: string;
   passwordConfirmation: string;
   phone: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangeName?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangeEmail?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangePassword?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangePasswordConfirmation?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangePhone?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const SignUpForm: React.FC<SignUpFormProps> = ({
@@ -18,7 +22,11 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
   password = '',
   passwordConfirmation = '',
   phone = '',
-  onChange
+  onChangeName,
+  onChangeEmail,
+  onChangePassword,
+  onChangePasswordConfirmation,
+  onChangePhone
 }) => {
   return (
     <div className={formStyle}>
@@ -28,7 +36,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
           placeholder: "Seu nome",
           type: "text",
           value: name,
-          onChange
+          onChange: onChangeName
         }}
       />
 
@@ -38,7 +46,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
           placeholder: "someName@email.com",
           type: "email",
           value: email,
-          onChange
+          onChange: onChangeEmail
         }}
       />
 
@@ -48,7 +56,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
           placeholder: "******",
           type: "password",
           value: password,
-          onChange
+          onChange: onChangePassword
         }}
       />
 
@@ -58,7 +66,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
           placeholder: "******",
           type: "password",
           value: passwordConfirmation,
-          onChange
+          onChange: onChangePasswordConfirmation
         }}
       />
 
@@ -68,7 +76,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
           placeholder: "(12) 99999-9999",
           type: "number",
           value: phone,
-          onChange
+          onChange: onChangePhone
         }}
       />
     </div>

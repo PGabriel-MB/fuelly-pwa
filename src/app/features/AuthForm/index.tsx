@@ -11,6 +11,7 @@ import { layoutStyle, } from "./styles";
 import Image from "next/image";
 import { Button } from "@/app/components/Button";
 
+
 const AuthForm: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [loginForm, setLoginForm] = useState<LoginFormProps>({ email: '', password: '' });
@@ -26,6 +27,10 @@ const AuthForm: React.FC = () => {
     setIsLogin(value);
   }
 
+  const sendLoginData = (loginBody: LoginFormProps) => {
+    // construir sistema de requests
+  }
+
   return (
     <div className={layoutStyle}>
       <Image
@@ -39,11 +44,16 @@ const AuthForm: React.FC = () => {
       {isLogin ? // corrigir as funções de onchange dos formulários
       <LoginForm
         {...loginForm}
-        onChange={(e) => setLoginForm({...loginForm, email: e.target.value})}
+        onChangeEmail={(e) => setLoginForm({...loginForm, email: e.target.value})}
+        onChangePassword={(e) => setLoginForm({...loginForm, email: e.target.value})}
       /> :
       <SignUpForm
         {...signUpForm}
-        onChange={(e) => setSignUpForm({...signUpForm, name: e.target.value})}
+        onChangeName={(e) => setSignUpForm({...signUpForm, name: e.target.value})}
+        onChangeEmail={(e) => setSignUpForm({...signUpForm, name: e.target.value})}
+        onChangePassword={(e) => setSignUpForm({...signUpForm, name: e.target.value})}
+        onChangePasswordConfirmation={(e) => setSignUpForm({...signUpForm, name: e.target.value})}
+        onChangePhone={(e) => setSignUpForm({...signUpForm, name: e.target.value})}
       />}
 
       <div className="flex space-around gap-2 w-full max-w-md">

@@ -5,10 +5,11 @@ import { TextField } from "@/app/components/TextField";
 export interface LoginFormProps {
   email: string;
   password: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangeEmail?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangePassword?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ email = '', password = '', onChange }) => {
+const LoginForm: React.FC<LoginFormProps> = ({ email = '', password = '', onChangeEmail, onChangePassword }) => {
   return (
     <div className={formStyle}>
       <TextField
@@ -17,7 +18,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ email = '', password = '', onChan
           placeholder: "someName@email.com",
           type: "email",
           value: email,
-          onChange
+          onChange: onChangeEmail
         }}
       />
 
@@ -27,7 +28,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ email = '', password = '', onChan
           placeholder: "******",
           type: "password",
           value: password,
-          onChange
+          onChange: onChangePassword
         }}
       />
     </div>

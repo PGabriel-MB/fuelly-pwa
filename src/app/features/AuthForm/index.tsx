@@ -31,6 +31,10 @@ const AuthForm: React.FC = () => {
     // construir sistema de requests
   }
 
+  const sendSignUpData = (signUpBody: SignUpFormProps) => {
+    
+  }
+
   return (
     <div className={layoutStyle}>
       <Image

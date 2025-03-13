@@ -1,14 +1,20 @@
 import type { LoginFormProps } from "../features/AuthForm/LoginForm";
-import type { AuthData } from "../types";
+import { SignUpFormProps } from "../features/AuthForm/SingUpForm";
+import type { AuthData, SignUpData } from "../types";
 
 import { api } from "./baseConfig";
 
 export type LoginProps = LoginFormProps;
 
-const handleLogin = async (loginBody: LoginProps) => {
-  api.get<AuthData>('/auth/login', );
-}
+export type SignUpdProps = SignUpFormProps;
+
+const reqLogin = async (loginBody: LoginProps) => 
+  await api.post<AuthData>('/auth/login', loginBody);
+
+const reqSignUp = async (singUpBody: SignUpdProps) =>
+  await api.post<SignUpData>('/auth/signup', singUpBody);
 
 export {
-  handleLogin
+  reqLogin,
+  reqSignUp
 }

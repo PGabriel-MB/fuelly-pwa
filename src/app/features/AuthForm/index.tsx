@@ -7,9 +7,11 @@ import type { SignUpFormProps } from './SingUpForm'
 import LoginForm from './LoginForm'
 import SignUpForm from './SingUpForm'
 import { layoutStyle, } from "./styles";
+import { reqLogin } from "@/app/services/auth";
 
 import Image from "next/image";
 import { Button } from "@/app/components/Button";
+import { setAuthToken } from "@/lib/storage/auth";
 
 
 const AuthForm: React.FC = () => {
@@ -28,7 +30,11 @@ const AuthForm: React.FC = () => {
   }
 
   const sendLoginData = (loginBody: LoginFormProps) => {
-    // construir sistema de requests
+    reqLogin(loginBody).then(resp => {
+      const { data } = resp;
+
+      setAuthToken(data.token);
+    })
   }
 
   const sendSignUpData = (signUpBody: SignUpFormProps) => {

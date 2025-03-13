@@ -9,7 +9,10 @@ type User = {
 
 type AuthData = User & { token: string };
 
+type SignUpData = { id: string };
+
 export type {
   User,
-  AuthData
+  AuthData,
+  SignUpData
 }

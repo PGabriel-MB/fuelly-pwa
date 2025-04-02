@@ -8,7 +8,7 @@ export type LoginProps = LoginFormProps;
 
 export type SignUpdProps = SignUpFormProps;
 
-const reqLogin = async (loginBody: LoginProps) => 
+const reqLogin = async (loginBody: LoginProps) =>
   await api.post<AuthData>('/auth/login', loginBody);
 
 const reqSignUp = async (singUpBody: SignUpdProps) =>

@@ -13,9 +13,11 @@ import { reqLogin } from "@/app/services/auth";
 import Image from "next/image";
 import { Button } from "@/app/components/Button";
 import { setAuthToken } from "@/lib/storage/auth";
+import { useAuth } from "@/app/contexts/AuthContext";
 
 
 const AuthForm: React.FC = () => {
+  const { login } = useAuth();
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(true);
   const [loginForm, setLoginForm] = useState<LoginFormProps>({ email: '', password: '' });
@@ -31,13 +33,8 @@ const AuthForm: React.FC = () => {
     setIsLogin(value);
   }
 
-  const sendLoginData = (loginBody: LoginFormProps) => {
-    reqLogin(loginBody).then(resp => {
-      const { data } = resp;
-
-      setAuthToken(data.token);
-      router.push("/dashboard");
-    })
+  const sendLoginData = async (loginBody: LoginFormProps) => {
+    await login({ ...loginBody });
   }
 
   const sendSignUpData = (signUpBody: SignUpFormProps) => {

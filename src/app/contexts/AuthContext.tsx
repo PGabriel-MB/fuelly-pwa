@@ -15,8 +15,8 @@ import { getUser } from "../services/user";
 import { User } from "../types/user";
 
 type AuthContextType = {
-  user: string | null;
-  login: (email: string, password: string) => Promise<void>;
+  user: User | null;
+  login: (data: LoginProps) => Promise<void>;
   logout: () => void;
 }
 
@@ -28,7 +28,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const token = getAuthToken();
 
-    if (token && user) {
+    if (token && user?.id) {
       getUser(user.id)
         .then(resp => setUser(resp.data))
         .catch(() => logout());
@@ -37,7 +37,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (loginData: LoginProps) => {
     const response = await reqLogin(loginData);
-    const { token, id: userId } = response.data;
+    const { token, userId } = response.data;
 
     setAuthToken(token);
     setUser({ ...user, id: userId } as User);
@@ -53,4 +53,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       {children}
     </AuthContext.Provider>
   )
+}
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+
+  if (!context) {
+    throw new Error("useAuth deve ser usado dentro de um AuthProvider");
+  }
+
+  return context;
 }

@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import SplashScreen from "./components/SplashScreen";
 import { useEffect, useState } from "react";
+import { AuthProvider } from "./contexts/AuthContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,12 +33,14 @@ export default function RootLayout({
   }, []);
 
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {showSplash ? <SplashScreen /> : children}
-      </body>
-    </html>
+    <AuthProvider>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          {showSplash ? <SplashScreen /> : children}
+        </body>
+      </html>
+    </AuthProvider>
   );
 }

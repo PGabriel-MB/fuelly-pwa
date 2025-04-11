@@ -1,4 +1,4 @@
-type AuthData = { id: string, token: string };
+type AuthData = { userId: string, token: string };
 
 type SignUpData = { id: string };
 

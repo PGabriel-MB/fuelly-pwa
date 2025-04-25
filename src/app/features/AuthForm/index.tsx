@@ -1,6 +1,7 @@
-"use client";
+'use client';
+
 import React, { useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 import type { LoginFormProps } from './LoginForm'
 import type { SignUpFormProps } from './SingUpForm'

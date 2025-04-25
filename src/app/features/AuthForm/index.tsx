@@ -8,11 +8,9 @@ import type { SignUpFormProps } from './SingUpForm'
 import LoginForm from './LoginForm'
 import SignUpForm from './SingUpForm'
 import { layoutStyle, } from "./styles";
-import { reqLogin } from "@/app/services/auth";
 
 import Image from "next/image";
 import { Button } from "@/app/components/Button";
-import { setAuthToken } from "@/lib/storage/auth";
 import { useAuth } from "@/app/contexts/AuthContext";
 
 
@@ -34,7 +32,10 @@ const AuthForm: React.FC = () => {
   }
 
   const sendLoginData = async (loginBody: LoginFormProps) => {
-    await login({ ...loginBody });
+    await login({ ...loginBody })
+      .then(() => {
+        router.push("/home");
+      });
   }
 
   const sendSignUpData = (signUpBody: SignUpFormProps) => {
@@ -70,7 +71,7 @@ const AuthForm: React.FC = () => {
         {isLogin ?
           (<>
             <Button styleType="primary" onClick={() => changeAuthForm(false)}>Cadastrar</Button>
-            <Button styleType="secondary" onClick={() => null}>Login</Button>
+            <Button styleType="secondary" onClick={() => sendLoginData(loginForm)}>Login</Button>
           </>) : (<>
             <Button styleType="primary" onClick={() => changeAuthForm(true)}>Login</Button>
             <Button styleType="secondary" onClick={() => null}>Cadastrar</Button>

@@ -33,6 +33,8 @@ const AuthForm: React.FC = () => {
   }
 
   const sendLoginData = async (loginBody: LoginFormProps) => {
+    // userteste@email.com
+    // usertest
     await login({ ...loginBody })
       .then(() => {
         router.push("/home");
@@ -57,7 +59,7 @@ const AuthForm: React.FC = () => {
         <LoginForm
           {...loginForm}
           onChangeEmail={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
-          onChangePassword={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
+          onChangePassword={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
         /> :
         <SignUpForm
           {...signUpForm}

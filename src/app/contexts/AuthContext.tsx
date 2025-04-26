@@ -44,6 +44,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   const logout = () => {
+    /* @TODO: Needs adjust this funcitons to redirect to login page and
+    * add a request do deactivate auth token
+    */
     removeAuthToken();
     setUser(null);
   }

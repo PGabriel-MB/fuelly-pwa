@@ -4,6 +4,7 @@ import React, {
   useEffect,
   useState
 } from "react";
+import { useRouter } from "next/navigation";
 import { api } from "../services/baseConfig";
 import {
   getAuthToken,
@@ -24,6 +25,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const route = useRouter();
 
   useEffect(() => {
     const token = getAuthToken();
@@ -44,11 +46,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   const logout = () => {
-    /* @TODO: Needs adjust this funcitons to redirect to login page and
-    * add a request do deactivate auth token
-    */
     removeAuthToken();
     setUser(null);
+    route.push("/");
   }
 
   return (

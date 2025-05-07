@@ -13,6 +13,7 @@ import { layoutStyle, } from "./styles";
 import Image from "next/image";
 import { Button } from "@/app/components/Button";
 import { useAuth } from "@/app/contexts/AuthContext";
+import { reqSignUp } from "@/app/services/auth";
 
 
 const AuthForm: React.FC = () => {
@@ -41,8 +42,11 @@ const AuthForm: React.FC = () => {
       });
   }
 
-  const sendSignUpData = (signUpBody: SignUpFormProps) => {
-
+  const sendSignUpData = async (signUpBody: SignUpFormProps) => {
+    await reqSignUp(signUpBody)
+      .then(() => {
+        router.push("/");
+      });
   }
 
   return (
@@ -77,7 +81,7 @@ const AuthForm: React.FC = () => {
             <Button styleType="secondary" onClick={() => sendLoginData(loginForm)}>Login</Button>
           </>) : (<>
             <Button styleType="primary" onClick={() => changeAuthForm(true)}>Login</Button>
-            <Button styleType="secondary" onClick={() => null}>Cadastrar</Button>
+            <Button styleType="secondary" onClick={() => sendSignUpData(signUpForm)}>Cadastrar</Button>
           </>
           )}
       </div>

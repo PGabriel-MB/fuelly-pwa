@@ -11,8 +11,10 @@ export type SignUpdProps = SignUpFormProps;
 const reqLogin = async (loginBody: LoginProps) =>
   await api.post<AuthData>('/auth/login', loginBody);
 
-const reqSignUp = async (singUpBody: SignUpdProps) =>
-  await api.post<SignUpData>('/auth/signup', singUpBody);
+const reqSignUp = async (signUpBody: SignUpdProps) => {
+  const body = { ...signUpBody, country_code: "BR" }; // @TODO: Remover o 'confirmationPassword'
+  await api.post<SignUpData>('/auth/signup', body);
+}
 
 export {
   reqLogin,

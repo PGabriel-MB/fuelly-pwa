@@ -68,10 +68,10 @@ const AuthForm: React.FC = () => {
         <SignUpForm
           {...signUpForm}
           onChangeName={(e) => setSignUpForm({ ...signUpForm, name: e.target.value })}
-          onChangeEmail={(e) => setSignUpForm({ ...signUpForm, name: e.target.value })}
-          onChangePassword={(e) => setSignUpForm({ ...signUpForm, name: e.target.value })}
-          onChangePasswordConfirmation={(e) => setSignUpForm({ ...signUpForm, name: e.target.value })}
-          onChangePhone={(e) => setSignUpForm({ ...signUpForm, name: e.target.value })}
+          onChangeEmail={(e) => setSignUpForm({ ...signUpForm, email: e.target.value })}
+          onChangePassword={(e) => setSignUpForm({ ...signUpForm, password: e.target.value })}
+          onChangePasswordConfirmation={(e) => setSignUpForm({ ...signUpForm, passwordConfirmation: e.target.value })}
+          onChangePhone={(e) => setSignUpForm({ ...signUpForm, phone: e.target.value })}
         />}
 
       <div className="flex space-around gap-2 w-full max-w-md">
@@ -81,7 +81,7 @@ const AuthForm: React.FC = () => {
             <Button styleType="secondary" onClick={() => sendLoginData(loginForm)}>Login</Button>
           </>) : (<>
             <Button styleType="primary" onClick={() => changeAuthForm(true)}>Login</Button>
-            <Button styleType="secondary" onClick={() => sendSignUpData(signUpForm)}>Cadastrar</Button>
+            <Button styleType="secondary" disabled={signUpForm.password != signUpForm.passwordConfirmation} onClick={() => sendSignUpData(signUpForm)}>Cadastrar</Button>
           </>
           )}
       </div>

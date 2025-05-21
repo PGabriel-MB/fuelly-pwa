@@ -12,7 +12,8 @@ const reqLogin = async (loginBody: LoginProps) =>
   await api.post<AuthData>('/auth/login', loginBody);
 
 const reqSignUp = async (signUpBody: SignUpdProps) => {
-  const body = { ...signUpBody, country_code: "BR" }; // @TODO: Remover o 'confirmationPassword'
+  let { passwordConfirmation, ...sBody } = signUpBody;
+  const body = { ...sBody, country_code: "BR" };
   await api.post<SignUpData>('/auth/signup', body);
 }
 

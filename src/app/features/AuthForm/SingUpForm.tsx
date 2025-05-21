@@ -1,4 +1,4 @@
-import React, {} from "react"
+import React, { } from "react"
 import { formStyle } from "./styles"
 
 import { TextField } from "@/app/components/TextField"
@@ -51,6 +51,16 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
       />
 
       <TextField
+        label="Telefone"
+        inputProps={{
+          placeholder: "(12) 99999-9999",
+          type: "number",
+          value: phone,
+          onChange: onChangePhone
+        }}
+      />
+
+      <TextField
         label="Senha"
         inputProps={{
           placeholder: "******",
@@ -70,15 +80,6 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
         }}
       />
 
-      <TextField
-        label="Telefone"
-        inputProps={{
-          placeholder: "(12) 99999-9999",
-          type: "number",
-          value: phone,
-          onChange: onChangePhone
-        }}
-      />
     </div>
   )
 }

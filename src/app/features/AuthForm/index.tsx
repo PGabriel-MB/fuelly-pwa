@@ -59,7 +59,7 @@ const AuthForm: React.FC = () => {
         sizes="(max-width: 120px)"
       />
 
-      {isLogin ? // corrigir as funções de onchange do formulário de SignUp
+      {isLogin ?
         <LoginForm
           {...loginForm}
           onChangeEmail={(e) => setLoginForm({ ...loginForm, email: e.target.value })}

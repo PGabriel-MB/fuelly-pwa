@@ -30,9 +30,14 @@ export function LoginForm() {
         onChange={e => setPassword(e.target.value)}
         required
       />
-      <Button type="submit" className="w-full">
-        Entrar
-      </Button>
+      <div className="flex gap-2 flex-row justify-between">
+        <Button type="button" className="w-30" onClick={() => alert("Redirect to register")}>
+          Cadastrar
+        </Button>
+        <Button type="submit" className="w-30">
+          Entrar
+        </Button>
+      </div>
     </form>
   );
 }

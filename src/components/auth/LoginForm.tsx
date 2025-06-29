@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { redirect } from "next/navigation";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -31,10 +33,13 @@ export function LoginForm() {
         required
       />
       <div className="flex gap-2 flex-row justify-between">
-        <Button type="button" className="w-30" onClick={() => alert("Redirect to register")}>
+        <Button
+          type="button"
+          variant={"ghost"}
+          className="w-30 font-bold text-white" onClick={() => redirect("/register")}>
           Cadastrar
         </Button>
-        <Button type="submit" className="w-30">
+        <Button type="submit" className="w-30 bg-red-400 border-2">
           Entrar
         </Button>
       </div>

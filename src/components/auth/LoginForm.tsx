@@ -36,7 +36,7 @@ export function LoginForm() {
         <Button
           type="button"
           variant={"ghost"}
-          className="w-30 font-bold text-white" onClick={() => redirect("/register")}>
+          className="w-30 font-bold text-red-500" onClick={() => redirect("/register")}>
           Cadastrar
         </Button>
         <Button type="submit" className="w-30 bg-red-400 border-2">

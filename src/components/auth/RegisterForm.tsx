@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { redirect } from "next/navigation";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -47,8 +49,21 @@ export function RegisterForm() {
         onChange={e => setConfirm(e.target.value)}
         required
       />
-      <Button type="submit" className="w-full" disabled={password !== confirm}>
+      <Button
+        type="submit"
+        className="w-full bg-red-500 mt-4"
+        disabled={password !== confirm}
+      >
         Cadastrar
+      </Button>
+      <Button
+        type="button"
+        variant="link"
+        className="w-full text-red-500"
+        onClick={() => redirect("/login")}
+        disabled={password !== confirm}
+      >
+        Já tenho uma conta
       </Button>
     </form>
   );

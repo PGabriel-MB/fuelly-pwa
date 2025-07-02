@@ -32,17 +32,15 @@ export function LoginForm() {
         onChange={e => setPassword(e.target.value)}
         required
       />
-      <div className="flex gap-2 flex-row justify-between">
-        <Button
-          type="button"
-          variant={"ghost"}
-          className="w-30 font-bold text-red-500" onClick={() => redirect("/register")}>
-          Cadastrar
-        </Button>
-        <Button type="submit" className="w-30 bg-red-400 border-2">
-          Entrar
-        </Button>
-      </div>
+      <Button type="submit" className="w-full bg-red-500 border-2 mt-4">
+        Entrar
+      </Button>
+      <Button
+        type="button"
+        variant={"link"}
+        className="w-full font-bold text-red-500" onClick={() => redirect("/register")}>
+        Ainda não tem uma conta? Cadastre-se
+      </Button>
     </form>
   );
 }

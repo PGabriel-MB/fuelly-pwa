@@ -1,42 +1,39 @@
 import React, { useState, useEffect } from "react";
 import * as authService from "@/services/auth";
-import { User } from "@/models/user";
 
 import { AuthContext } from "@/contexts/AuthContext";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    // Aqui você pode buscar o usuário do localStorage/cookies se já estiver logado
-    // Exemplo:
-    // const storedUser = localStorage.getItem("user");
-    // if (storedUser) setUser(JSON.parse(storedUser));
+    const storedToken = localStorage.getItem("token");
+
+    if (storedToken) {
+      setToken(storedToken);
+      authService.setAuthToken(storedToken); // Set the token for future requests
+    }
   }, []);
 
   const login = async (email: string, password: string) => {
     const data = await authService.login(email, password);
-    setUser(data.user);
-    // localStorage.setItem("user", JSON.stringify(data.user));
-    // localStorage.setItem("token", data.token);
+    setToken(data.token);
+    localStorage.setItem("token", data.token);
   };
 
   const register = async (name: string, email: string, password: string) => {
     const data = await authService.register(name, email, password);
-    setUser(data.user);
-    // localStorage.setItem("user", JSON.stringify(data.user));
-    // localStorage.setItem("token", data.token);
+    return data
   };
 
   const logout = () => {
-    setUser(null);
-    // localStorage.removeItem("user");
-    // localStorage.removeItem("token");
+    setToken(null);
+    localStorage.removeItem("token");
     authService.logout();
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, register, logout }}>
+    <AuthContext.Provider value={{ token, isAuthenticated: !!token, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

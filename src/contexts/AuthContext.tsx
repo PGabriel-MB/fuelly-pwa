@@ -1,8 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
-import * as authService from "@/services/auth";
-import { User } from "@/models/user";
+import React, { createContext, useContext } from "react";
 import { AuthContextType } from "@/models/auth";
 
 

@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import { apiClient } from "./base";
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api"; // ajuste conforme seu backend
 
 export async function login(email: string, password: string) {
@@ -17,4 +19,12 @@ export async function logout() {
   // await axios.post(`${API_URL}/logout`);
   // Ou apenas limpe o token localmente
   return true;
+}
+
+export function setAuthToken(token: string) {
+  if (token) {
+    apiClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  } else {
+    delete apiClient.defaults.headers.common["Authorization"];
+  }
 }

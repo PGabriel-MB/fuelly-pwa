@@ -5,15 +5,25 @@ import { redirect } from "next/navigation";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { login } = useAuth();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Chame sua função de login aqui
-    // Exemplo: await login({ email, password });
+    try {
+      await login(email, password);
+
+      // redirect("/"); 
+      alert("Login successful! Redirecting to home page...");
+    } catch (error) {
+      console.error("Login failed:", error);
+      // Handle login error (e.g., show a notification)
+    }
   };
 
   return (

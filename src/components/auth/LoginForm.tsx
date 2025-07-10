@@ -10,6 +10,7 @@ import { useAuth } from "@/contexts/AuthContext";
 export function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const { login } = useAuth();
 
@@ -35,13 +36,22 @@ export function LoginForm() {
         onChange={e => setEmail(e.target.value)}
         required
       />
-      <Input
-        type="password"
-        placeholder="Senha"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-        required
-      />
+      <div className="w-full relative">
+        <Input
+          type={showPassword ? "text" : "password"}
+          placeholder="Senha"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          required
+        />
+        <Button
+          type="button"
+          className="absolute right-2 top-1/2 transform -translate-y-1/2"
+          onClick={() => setShowPassword(!showPassword)}
+        >
+          {showPassword ? "Esconder" : "Mostrar"}
+        </Button>
+      </div>
       <Button type="submit" className="w-full bg-red-500 border-2 mt-4">
         Entrar
       </Button>

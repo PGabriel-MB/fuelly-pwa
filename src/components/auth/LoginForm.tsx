@@ -3,9 +3,12 @@
 import { useState } from "react";
 import { redirect } from "next/navigation";
 
+import { Eye, EyeOff } from "lucide-react";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
+
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
@@ -46,10 +49,10 @@ export function LoginForm() {
         />
         <Button
           type="button"
-          className="absolute right-2 top-1/2 transform -translate-y-1/2"
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-transparent text-red-500"
           onClick={() => setShowPassword(!showPassword)}
         >
-          {showPassword ? "Esconder" : "Mostrar"}
+          {showPassword ? <Eye /> : <EyeOff />}
         </Button>
       </div>
       <Button type="submit" className="w-full bg-red-500 border-2 mt-4">

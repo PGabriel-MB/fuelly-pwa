@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { redirect } from "next/navigation";
+import { Eye, EyeOff } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,9 @@ export function RegisterForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,20 +39,38 @@ export function RegisterForm() {
         onChange={e => setEmail(e.target.value)}
         required
       />
-      <Input
-        type="password"
-        placeholder="Senha"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-        required
-      />
-      <Input
-        type="password"
-        placeholder="Confirme a senha"
-        value={confirm}
-        onChange={e => setConfirm(e.target.value)}
-        required
-      />
+      <div className="w-full relative">
+        <Input
+          type={showPassword ? "text" : "password"}
+          placeholder="Senha"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          required
+        />
+        <Button
+          type="button"
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-transparent text-red-500"
+          onClick={() => setShowPassword(!showPassword)}
+        >
+          {showPassword ? <Eye /> : <EyeOff />}
+        </Button>
+      </div>
+      <div className="w-full relative">
+        <Input
+          type={showConfirm ? "text" : "password"}
+          placeholder="Senha"
+          value={confirm}
+          onChange={e => setConfirm(e.target.value)}
+          required
+        />
+        <Button
+          type="button"
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-transparent text-red-500"
+          onClick={() => setShowConfirm(!showConfirm)}
+        >
+          {showConfirm ? <Eye /> : <EyeOff />}
+        </Button>
+      </div>
       <Button
         type="submit"
         className="w-full bg-red-500 mt-4"

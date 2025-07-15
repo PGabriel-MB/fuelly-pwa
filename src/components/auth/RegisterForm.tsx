@@ -6,10 +6,14 @@ import { Eye, EyeOff } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
 
 export function RegisterForm() {
+  const { register } = useAuth();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
 
@@ -19,8 +23,8 @@ export function RegisterForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (password !== confirm) return;
-    // Chame sua função de cadastro aqui
-    // Exemplo: await register({ name, email, password });
+
+    // register(name,email, passwor)
   };
 
   return (
@@ -36,6 +40,13 @@ export function RegisterForm() {
         type="email"
         placeholder="E-mail"
         value={email}
+        onChange={e => setEmail(e.target.value)}
+        required
+      />
+      <Input
+        type="phone"
+        placeholder="Telefone"
+        value={phone}
         onChange={e => setEmail(e.target.value)}
         required
       />
@@ -70,6 +81,11 @@ export function RegisterForm() {
         >
           {showConfirm ? <Eye /> : <EyeOff />}
         </Button>
+      </div>
+      <div className="text-right mb-4">
+        <label className="text-red-600">
+          {password !== confirm ? "As senhas devem coincidir" : " "}
+        </label>
       </div>
       <Button
         type="submit"

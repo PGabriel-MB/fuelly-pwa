@@ -3,10 +3,12 @@
 import { useState } from "react";
 import { redirect } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
+import { toast } from "sonner";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
+import { DatePicker } from "../ui/datepicker";
 
 export function RegisterForm() {
   const { register } = useAuth();
@@ -16,6 +18,7 @@ export function RegisterForm() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
+  const [birthDate, setBirthDate] = useState<Date | undefined>(undefined);
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -24,7 +27,18 @@ export function RegisterForm() {
     e.preventDefault();
     if (password !== confirm) return;
 
-    // register(name,email, passwor)
+    // @TODO: Add validation for name, email, phone, and birthDate
+
+    try {
+      register(name, email, password, phone, birthDate!, "BR");
+      toast.success("Cadastro realizado com sucesso!");
+
+      setTimeout(() => {
+        redirect("/login");
+      }, 500);
+    } catch (error) {
+      console.error("Registration error:", error);
+    }
   };
 
   return (
@@ -47,9 +61,10 @@ export function RegisterForm() {
         type="phone"
         placeholder="Telefone"
         value={phone}
-        onChange={e => setEmail(e.target.value)}
+        onChange={e => setPhone(e.target.value)}
         required
       />
+      <DatePicker label="" withLabel={false} value={birthDate} onChange={setBirthDate} />
       <div className="w-full relative">
         <Input
           type={showPassword ? "text" : "password"}
@@ -91,6 +106,7 @@ export function RegisterForm() {
         type="submit"
         className="w-full bg-red-500 mt-4"
         disabled={password !== confirm}
+        onClick={(e) => handleSubmit(e)}
       >
         Cadastrar
       </Button>

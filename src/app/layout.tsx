@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Toaster } from "@/components/ui/sonner";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import SplashProvider from "@/providers/SplashProvider";
@@ -36,6 +37,7 @@ export default function RootLayout({
             {children}
           </AuthProvider>
         </SplashProvider>
+        <Toaster />
       </body>
     </html>
   );

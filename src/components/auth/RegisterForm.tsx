@@ -4,6 +4,7 @@ import { useState } from "react";
 import { redirect } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
+import { IMaskInput } from "react-imask";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -57,12 +58,14 @@ export function RegisterForm() {
         onChange={e => setEmail(e.target.value)}
         required
       />
-      <Input
-        type="phone"
-        placeholder="Telefone"
+      <IMaskInput
+        mask="(00) 00000-0000"
         value={phone}
-        onChange={e => setPhone(e.target.value)}
+        onAccept={e => setPhone(e)}
+        inputMode="tel"
+        placeholder="Telefone"
         required
+        className="w-full h-9 px-3 py-1 text-red-600 bg-transparent border border-red-200 rounded-md shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
       />
       <DatePicker label="" withLabel={false} value={birthDate} onChange={setBirthDate} />
       <div className="w-full relative">

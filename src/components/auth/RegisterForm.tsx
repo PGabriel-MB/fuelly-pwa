@@ -24,14 +24,14 @@ export function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (password !== confirm) return;
 
     // @TODO: Add validation for name, email, phone, and birthDate
 
     try {
-      register(name, email, password, phone, birthDate!, "BR");
+      await register(name, email, password, phone, birthDate!, "BR");
       toast.success("Cadastro realizado com sucesso!");
 
       setTimeout(() => {

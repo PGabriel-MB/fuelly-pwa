@@ -10,7 +10,7 @@ export async function login(email: string, password: string) {
 }
 
 export async function register(name: string, email: string, password: string) {
-  const response = await axios.post(`${API_URL}/auth/register`, { name, email, password });
+  const response = await axios.post(`${API_URL}/auth/signup`, { name, email, password });
   return response.data;
 }
 

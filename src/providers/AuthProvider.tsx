@@ -23,8 +23,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("token", data.token);
   };
 
-  const register = async (name: string, email: string, password: string) => {
-    const data = await authService.register(name, email, password);
+  const register = async (
+    name: string,
+    email: string,
+    password: string,
+    phone: string,
+    birthDate: Date,
+    country: string
+  ) => {
+    const data = await authService
+      .register(name, email, password, phone, birthDate, country);
     return data
   };
 

@@ -28,11 +28,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     email: string,
     password: string,
     phone: string,
-    birthDate: Date,
-    country: string
+    birth_date: Date,
+    country_code: string
   ) => {
     const data = await authService
-      .register(name, email, password, phone, birthDate, country);
+      .register(name, email, password, phone, birth_date, country_code);
     return data
   };
 

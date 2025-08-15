@@ -14,12 +14,12 @@ export async function register(
   email: string,
   password: string,
   phone: string,
-  birthDate: Date,
-  country: string = "BR"
+  birth_date: Date,
+  country_code: string = "BR"
 ) {
   const response = await axios.post(
     `${API_URL}/auth/signup`,
-    { name, email, password, phone, birthDate, country }
+    { name, email, password, phone, birth_date, country_code }
   );
   return response.data;
 }

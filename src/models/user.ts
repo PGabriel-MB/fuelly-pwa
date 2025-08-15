@@ -3,7 +3,7 @@ type User = {
   name: string;
   email: string;
   phone?: string;
-  birthdate?: string;
+  birth_date?: string;
 };
 
 export type { User };

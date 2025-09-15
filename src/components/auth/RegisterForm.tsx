@@ -5,11 +5,14 @@ import { redirect } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { IMaskInput } from "react-imask";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { DatePicker } from "../ui/datepicker";
+import { AxiosError } from "axios";
 
 export function RegisterForm() {
   const { register } = useAuth();
@@ -23,6 +26,20 @@ export function RegisterForm() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+
+  const signUpSchema = z.object({
+    name: z.string().min(2, "O nome deve ter pelo menos 2 caracteres"),
+    email: z.string().email("Email inválido"),
+    phone: z.string().min(10, "Telefone inválido"),
+    password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
+    confirm: z.string().min(6, "A confirmação de senha deve ter pelo menos 6 caracteres"),
+    // birthDate is required
+    birthDate: z.date({ error: "Data de nascimento é obrigatória" }),
+  }).refine((data) => data.password === data.confirm, {
+    message: "As senhas devem coincidir",
+  });
+
+  type SignUpFormData = z.infer<typeof signUpSchema>;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { redirect } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -11,6 +10,9 @@ import { Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
+import { useState } from "react";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
 
 const loginSchema = z.object({
   email: z.string().email("Email inválido"),
@@ -24,41 +26,45 @@ export function LoginForm() {
     resolver: zodResolver(loginSchema),
   });
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const { login } = useAuth();
 
   const onSubmit = async (data: LoginFormData) => {
-    e.preventDefault();
     try {
-      await login(email, password);
+      // Agora usamos os dados já validados do RHF
+      await login(data.email, data.password);
 
-      // redirect("/"); 
-      alert("Login successful! Redirecting to home page...");
-    } catch (error) {
-      console.error("Login failed:", error);
-      // Handle login error (e.g., show a notification)
+      toast.success("Login realizado com sucesso!");
+      setTimeout(() => {
+        redirect("/");
+      }, 500);
+    } catch (error: unknown) {
+      const err = error as AxiosError<{ message: string }>;
+      toast.error(err.response?.data.message || "Erro ao fazer login. Tente novamente.");
     }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <Input
-        type="email"
-        placeholder="E-mail"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        required
-      />
+      <div>
+        <Input
+          type="email"
+          placeholder="E-mail"
+          aria-invalid={!!errors.email}
+          {...register("email")}
+        />
+        {errors.email && (
+          <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+        )}
+      </div>
+
       <div className="w-full relative">
         <Input
           type={showPassword ? "text" : "password"}
           placeholder="Senha"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          required
+          aria-invalid={!!errors.password}
+          {...register("password")}
         />
         <Button
           type="button"
@@ -67,15 +73,22 @@ export function LoginForm() {
         >
           {showPassword ? <Eye /> : <EyeOff />}
         </Button>
+        {errors.password && (
+          <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+        )}
       </div>
+
       <Button type="submit" className="w-full bg-red-500 border-2 mt-4">
         Entrar
       </Button>
+
       <Button
         type="button"
         variant={"link"}
-        className="w-full font-bold text-red-500" onClick={() => redirect("/register")}>
-        Ainda não tem uma conta? Cadastre-se
+        className="w-full font-bold text-red-500"
+        onClick={() => redirect("/register")}
+      >
+        Ainda não possui uma conta? Cadastre-se
       </Button>
     </form>
   );

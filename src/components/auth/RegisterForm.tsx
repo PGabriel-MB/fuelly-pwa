@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { IMaskInput } from "react-imask";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -14,8 +15,25 @@ import { useAuth } from "@/contexts/AuthContext";
 import { DatePicker } from "../ui/datepicker";
 import { AxiosError } from "axios";
 
+const signUpSchema = z.object({
+  name: z.string().min(2, "O nome deve ter pelo menos 2 caracteres"),
+  email: z.string().email("Email inválido"),
+  phone: z.string().min(10, "Telefone inválido"),
+  password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
+  confirm: z.string().min(6, "A confirmação de senha deve ter pelo menos 6 caracteres"),
+  birthDate: z.date({ error: "Data de nascimento é obrigatória" }),
+}).refine((data) => data.password === data.confirm, {
+  message: "As senhas devem coincidir",
+});
+
+type SignUpFormData = z.infer<typeof signUpSchema>;
+
 export function RegisterForm() {
-  const { register } = useAuth();
+  const { register: authRegister } = useAuth();
+
+  const { register, handleSubmit, formState: { errors } } = useForm<SignUpFormData>({
+    resolver: zodResolver(signUpSchema),
+  });
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -27,28 +45,20 @@ export function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  const signUpSchema = z.object({
-    name: z.string().min(2, "O nome deve ter pelo menos 2 caracteres"),
-    email: z.string().email("Email inválido"),
-    phone: z.string().min(10, "Telefone inválido"),
-    password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
-    confirm: z.string().min(6, "A confirmação de senha deve ter pelo menos 6 caracteres"),
-    // birthDate is required
-    birthDate: z.date({ error: "Data de nascimento é obrigatória" }),
-  }).refine((data) => data.password === data.confirm, {
-    message: "As senhas devem coincidir",
-  });
-
-  type SignUpFormData = z.infer<typeof signUpSchema>;
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: SignUpFormData) => {
     if (password !== confirm) return;
 
     // @TODO: Add validation for name, email, phone, and birthDate
 
     try {
-      await register(name, email, password, phone, birthDate!, "BR");
+      await authRegister(
+        data.name,
+        data.email,
+        data.password,
+        data.phone,
+        data.birthDate!,
+        "BR"
+      );
       toast.success("Cadastro realizado com sucesso!");
 
       setTimeout(() => {
@@ -60,22 +70,33 @@ export function RegisterForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <Input
-        type="text"
-        placeholder="Nome"
-        inputMode="text"
-        value={name}
-        onChange={e => setName(e.target.value)}
-        required
-      />
-      <Input
-        type="email"
-        placeholder="E-mail"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        required
-      />
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <div>
+        <Input
+          type="text"
+          placeholder="Nome"
+          inputMode="text"
+          aria-invalid={!!errors.name}
+          {...register("name")}
+          required
+        />
+        {errors.name && (
+          <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+        )}
+      </div>
+      <div>
+        <Input
+          type="email"
+          placeholder="E-mail"
+          inputMode="email"
+          aria-invalid={!!errors.email}
+          {...register("email")}
+          required
+        />
+        {errors.email && (
+          <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+        )}
+      </div>
       <IMaskInput
         mask="(00) 00000-0000"
         value={phone}

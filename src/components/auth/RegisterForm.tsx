@@ -97,16 +97,28 @@ export function RegisterForm() {
           <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
         )}
       </div>
-      <IMaskInput
-        mask="(00) 00000-0000"
-        value={phone}
-        onAccept={e => setPhone(e)}
-        inputMode="tel"
-        placeholder="Telefone"
-        required
-        className="w-full h-9 px-3 py-1 text-red-600 bg-transparent border border-red-200 rounded-md shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-      />
-      <DatePicker label="" withLabel={false} value={birthDate} onChange={setBirthDate} />
+      <div>
+        <IMaskInput
+          mask="(00) 00000-0000"
+          value={phone}
+          onAccept={e => setPhone(e)}
+          aria-invalid={!!errors.phone}
+          inputMode="tel"
+          placeholder="Telefone"
+          {...register("phone")}
+          required
+          className="w-full h-9 px-3 py-1 text-red-600 bg-transparent border border-red-200 rounded-md shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+        />
+        {errors.phone && (
+          <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
+        )}
+      </div>
+      <div>
+        <DatePicker label="" withLabel={false} value={birthDate} onChange={setBirthDate} />
+        {errors.birthDate && (
+          <p className="text-red-500 text-sm mt-1">{errors.birthDate.message}</p>
+        )}
+      </div>
       <div className="w-full relative">
         <Input
           type={showPassword ? "text" : "password"}
@@ -122,6 +134,9 @@ export function RegisterForm() {
         >
           {showPassword ? <Eye /> : <EyeOff />}
         </Button>
+        {errors.password && (
+          <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+        )}
       </div>
       <div className="w-full relative">
         <Input
@@ -138,6 +153,9 @@ export function RegisterForm() {
         >
           {showConfirm ? <Eye /> : <EyeOff />}
         </Button>
+        {errors.confirm && (
+          <p className="text-red-500 text-sm mt-1">{errors.confirm.message}</p>
+        )}
       </div>
       <div className="text-right mb-4">
         <label className="text-red-600">
@@ -148,7 +166,6 @@ export function RegisterForm() {
         type="submit"
         className="w-full bg-red-500 mt-4"
         disabled={password !== confirm}
-        onClick={(e) => handleSubmit(e)}
       >
         Cadastrar
       </Button>

@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { IMaskInput } from "react-imask";
-import { z } from "zod";
+import { set, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
 
@@ -21,7 +21,6 @@ const signUpSchema = z.object({
   phone: z.string().min(10, "Telefone inválido"),
   password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
   confirm: z.string().min(6, "A confirmação de senha deve ter pelo menos 6 caracteres"),
-  birthDate: z.date({ error: "Data de nascimento é obrigatória" }),
 }).refine((data) => data.password === data.confirm, {
   message: "As senhas devem coincidir",
 });
@@ -35,18 +34,30 @@ export function RegisterForm() {
     resolver: zodResolver(signUpSchema),
   });
 
-  // const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
   const [birthDate, setBirthDate] = useState<Date | undefined>(undefined);
+  const [birthDateError, setBirthDateError] = useState<string | null>(null);
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  const onSubmit = async (data: SignUpFormData) => {
-    if (password !== confirm) return;
+  const [isDifferentPass, setIsDifferentPass] = useState(false);
 
-    // @TODO: Add validation for name, email, phone, and birthDate
+  const onSubmit = async (data: SignUpFormData) => {
+    if (data.password !== data.confirm) {
+      setIsDifferentPass(true);
+      toast.error("As senhas devem coincidir");
+      setTimeout(() => { setIsDifferentPass(false); }, 3000);
+      return;
+    }
+
+    if (!birthDate) {
+      setBirthDateError("Data de nascimento é obrigatória");
+      toast.error("Data de nascimento é obrigatória");
+      setTimeout(() => { setBirthDateError(null); }, 3000);
+      return;
+    }
+
+    // @TODO: Add validation birthDate
 
     try {
       await authRegister(
@@ -54,7 +65,7 @@ export function RegisterForm() {
         data.email,
         data.password,
         data.phone,
-        data.birthDate!,
+        birthDate!,
         "BR"
       );
       toast.success("Cadastro realizado com sucesso!");
@@ -117,16 +128,16 @@ export function RegisterForm() {
       </div>
       <div>
         <DatePicker label="" withLabel={false} value={birthDate} onChange={setBirthDate} />
-        {errors.birthDate && (
-          <p className="text-red-500 text-sm mt-1">{errors.birthDate.message}</p>
+        {!birthDate && (
+          <p className="text-red-500 text-sm mt-1">{birthDateError}</p>
         )}
       </div>
       <div className="w-full relative">
         <Input
           type={showPassword ? "text" : "password"}
           placeholder="Senha"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
+          aria-invalid={!!errors.password}
+          {...register("password")}
           required
         />
         <Button
@@ -144,8 +155,8 @@ export function RegisterForm() {
         <Input
           type={showConfirm ? "text" : "password"}
           placeholder="Senha"
-          value={confirm}
-          onChange={e => setConfirm(e.target.value)}
+          aria-invalid={!!errors.confirm}
+          {...register("confirm")}
           required
         />
         <Button
@@ -161,13 +172,12 @@ export function RegisterForm() {
       </div>
       <div className="text-right mb-4">
         <label className="text-red-600">
-          {password !== confirm ? "As senhas devem coincidir" : " "}
+          {isDifferentPass ? "As senhas devem coincidir" : " "}
         </label>
       </div>
       <Button
         type="submit"
         className="w-full bg-red-500 mt-4"
-        disabled={password !== confirm}
       >
         Cadastrar
       </Button>
@@ -176,7 +186,6 @@ export function RegisterForm() {
         variant="link"
         className="w-full text-red-500"
         onClick={() => redirect("/login")}
-        disabled={password !== confirm}
       >
         Já tenho uma conta
       </Button>

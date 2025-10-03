@@ -34,13 +34,32 @@ export function RegisterForm() {
     resolver: zodResolver(signUpSchema),
   });
 
-  const [birthDate, setBirthDate] = useState<Date | undefined>(undefined);
+  const currentYear = new Date().getFullYear();
+  const minYear = currentYear - 100;
+  const maxYear = currentYear - 18;
+
+  const [birthDate, setBirthDate] = useState<Date | undefined>(new Date(maxYear, 0, 1));
   const [birthDateError, setBirthDateError] = useState<string | null>(null);
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
   const [isDifferentPass, setIsDifferentPass] = useState(false);
+
+  const handleBirthDateChange = (date: Date | undefined) => {
+    if (date) {
+      const year = date.getFullYear();
+      if (year < minYear || year > maxYear) {
+        setBirthDateError("Você deve ter pelo menos 18 anos");
+        toast.error("Você deve ter pelo menos 18 anos");
+        setTimeout(() => { setBirthDateError(null); }, 3000);
+        setBirthDate(undefined);
+      } else {
+        setBirthDate(date);
+        setBirthDateError(null);
+      }
+    }
+  }
 
   const onSubmit = async (data: SignUpFormData) => {
     if (data.password !== data.confirm) {
@@ -58,6 +77,7 @@ export function RegisterForm() {
     }
 
     // @TODO: Add validation birthDate
+    // the birthDate must be a date and the user must be at least 18 years old
 
     try {
       await authRegister(
@@ -127,7 +147,12 @@ export function RegisterForm() {
         )}
       </div>
       <div>
-        <DatePicker label="" withLabel={false} value={birthDate} onChange={setBirthDate} />
+        <DatePicker
+          label=""
+          withLabel={false}
+          value={birthDate}
+          onChange={setBirthDate}
+        />
         {!birthDate && (
           <p className="text-red-500 text-sm mt-1">{birthDateError}</p>
         )}
